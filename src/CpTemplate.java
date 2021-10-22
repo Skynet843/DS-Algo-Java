@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-
 public class CpTemplate {
     /************************************************** FAST INPUT IMPLEMENTATION *********************************************/
     static class Reader {
@@ -11,7 +10,13 @@ public class CpTemplate {
         private int bufferPointer, bytesRead;
         private int line_length;
 
-        public Reader(int ll) {
+        public Reader(int ll,File filename) throws FileNotFoundException {
+            din = new DataInputStream(new FileInputStream(filename));
+            buffer = new byte[BUFFER_SIZE];
+            bufferPointer = bytesRead = 0;
+            line_length = ll;
+        }
+        public Reader(int ll) throws FileNotFoundException {
             din = new DataInputStream(System.in);
             buffer = new byte[BUFFER_SIZE];
             bufferPointer = bytesRead = 0;
@@ -118,6 +123,44 @@ public class CpTemplate {
             din.close();
         }
     }
+
+    static class Writer{
+        BufferedWriter output;
+        Writer(File filename) throws FileNotFoundException {
+            output= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename)));
+        }
+        Writer(){
+            output = new BufferedWriter(new OutputStreamWriter(System.out));
+        }
+        <T> void println(T s) throws IOException {
+            output.write(String.valueOf(s)+"\n");
+            output.flush();
+        }
+        <T> void print(String s) throws IOException {
+            output.write(String.valueOf(s));
+            output.flush();
+        }
+    }
+
+    static Writer wr;
+    static Reader rd;  //Enter Required Line Length
+
+    static {
+        try {
+            File input=new File("input.txt");
+            File output=new File("output.txt");
+            if(input.exists() && output.exists()){
+                rd = new Reader(1000000,input);
+                wr=new Writer( output);
+            }else {
+                rd = new Reader(1000000);
+                wr=new Writer();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     /********************************************************* USEFUL CODE **************************************************/
     static boolean[] SAPrimeGenerator(int n){
         // TC-N*LOG(LOG N)
@@ -139,21 +182,7 @@ public class CpTemplate {
 
 
     /* https://www.geeksforgeeks.org/java-tricks-competitive-programming-java-8/ */
-    static class Util{
-        public static final int MOD=1000000007;
-        public static <T>  void swap(T[] arr,int i,int j){
-            T temp=arr[i];
-            arr[i]=arr[j];
-            arr[j]=temp;
-        }
-        public static <T> void printArray(T[] arr){
-            for(int i=0;i<arr.length;i++){
-                System.out.print(arr[i]);
-            }
-            System.out.println("");
-        }
-
-    }
+    public static final int MOD=1000000007;
     static class Pair{
         int first_val,second_val;
         Pair(int f,int s){
@@ -181,13 +210,11 @@ public class CpTemplate {
         }
     }
 
-    static BufferedWriter output = new BufferedWriter(new OutputStreamWriter(System.out));
-    static Reader rd = new Reader(1000000);  //Enter Required Line Length
+
 
     /***************************************************************************************************************************
      *********************************************************** MAIN CODE ******************************************************
      ****************************************************************************************************************************/
-
     public static void main(String[] args) throws IOException{
         int t=rd.nextInt();
         while (t-->0){
