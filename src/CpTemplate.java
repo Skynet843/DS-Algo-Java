@@ -10,12 +10,13 @@ public class CpTemplate {
         private int bufferPointer, bytesRead;
         private int line_length;
 
-        public Reader(int ll,File filename) throws FileNotFoundException {
+        public Reader(int ll, File filename) throws FileNotFoundException {
             din = new DataInputStream(new FileInputStream(filename));
             buffer = new byte[BUFFER_SIZE];
             bufferPointer = bytesRead = 0;
             line_length = ll;
         }
+
         public Reader(int ll) throws FileNotFoundException {
             din = new DataInputStream(System.in);
             buffer = new byte[BUFFER_SIZE];
@@ -124,19 +125,23 @@ public class CpTemplate {
         }
     }
 
-    static class Writer{
+    static class Writer {
         BufferedWriter output;
+
         Writer(File filename) throws FileNotFoundException {
-            output= new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename)));
+            output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename)));
         }
-        Writer(){
+
+        Writer() {
             output = new BufferedWriter(new OutputStreamWriter(System.out));
         }
+
         <T> void println(T s) throws IOException {
-            output.write(String.valueOf(s)+"\n");
+            output.write(String.valueOf(s) + "\n");
             output.flush();
         }
-        <T> void print(String s) throws IOException {
+
+        <T> void print(T s) throws IOException {
             output.write(String.valueOf(s));
             output.flush();
         }
@@ -147,33 +152,34 @@ public class CpTemplate {
 
     static {
         try {
-            File input=new File("input.txt");
-            File output=new File("output.txt");
-            if(input.exists() && output.exists()){
-                rd = new Reader(1000000,input);
-                wr=new Writer( output);
-            }else {
+            File input = new File("input.txt");
+            File output = new File("output.txt");
+            if (input.exists() && output.exists()) {
+                rd = new Reader(1000000, input);
+                wr = new Writer(output);
+            } else {
                 rd = new Reader(1000000);
-                wr=new Writer();
+                wr = new Writer();
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
+
     /********************************************************* USEFUL CODE **************************************************/
-    static boolean[] SAPrimeGenerator(int n){
+    static boolean[] SAPrimeGenerator(int n) {
         // TC-N*LOG(LOG N)
         //Create Prime Marking Array and fill it with true value
-        boolean[] primeMarker=new boolean[n+1];
-        Arrays.fill(primeMarker,true);
-        primeMarker[0]=false;
-        primeMarker[1]=false;
-        for(int i=2;i<=n;i++){
-            if(primeMarker[i]){
+        boolean[] primeMarker = new boolean[n + 1];
+        Arrays.fill(primeMarker, true);
+        primeMarker[0] = false;
+        primeMarker[1] = false;
+        for (int i = 2; i <= n; i++) {
+            if (primeMarker[i]) {
                 // we start from 2*i because i*1 must be prime
-                for(int j=2*i;j<=n;j+=i){
-                    primeMarker[j]=false;
+                for (int j = 2 * i; j <= n; j += i) {
+                    primeMarker[j] = false;
                 }
             }
         }
@@ -182,43 +188,44 @@ public class CpTemplate {
 
 
     /* https://www.geeksforgeeks.org/java-tricks-competitive-programming-java-8/ */
-    public static final int MOD=1000000007;
-    static class Pair{
-        int first_val,second_val;
-        Pair(int f,int s){
-            first_val=f;
-            second_val=s;
+    public static final int MOD = 1000000007;
+
+    static class Pair {
+        int first_val, second_val;
+
+        Pair(int f, int s) {
+            first_val = f;
+            second_val = s;
         }
-        Pair(){
-            first_val=0;
-            second_val=0;
+
+        Pair() {
+            first_val = 0;
+            second_val = 0;
         }
     }
 
-    public static class PairSorterSV implements Comparator<Pair>
-    {
+    public static class PairSorterSV implements Comparator<Pair> {
         @Override
         public int compare(Pair o1, Pair o2) {
-            return o1.second_val-o2.second_val ;
-        }
-    }
-    public static class PairSorterFV implements Comparator<Pair>
-    {
-        @Override
-        public int compare(Pair o1, Pair o2) {
-            return o1.first_val-o2.first_val ;
+            return o1.second_val - o2.second_val;
         }
     }
 
+    public static class PairSorterFV implements Comparator<Pair> {
+        @Override
+        public int compare(Pair o1, Pair o2) {
+            return o1.first_val - o2.first_val;
+        }
+    }
 
 
     /***************************************************************************************************************************
      *********************************************************** MAIN CODE ******************************************************
      ****************************************************************************************************************************/
-    public static void main(String[] args) throws IOException{
-        int t=rd.nextInt();
-        while (t-->0){
-
+    public static void main(String[] args) throws IOException {
+        int t = rd.nextInt();
+        while (t-- > 0) {
+            
         }
     }
 
